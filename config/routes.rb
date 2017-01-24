@@ -23,5 +23,5 @@ Rails.application.routes.draw do
   get  '/validic/patient_admin/visit_update' => 'patient_admin#visit_update'
   post '/validic/patient_admin/visit_update' => 'patient_admin#visit_update'
 
-  resources :validic_configurations
+  resources :validic_configurations, :bjond_validic_user_conversion
 end

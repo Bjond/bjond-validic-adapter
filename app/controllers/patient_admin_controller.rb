@@ -1,9 +1,13 @@
 class PatientAdminController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token, :only => [:arrival, :discharge, :transfer, :registration, :cancel, :pre_admit, :visit_update]
+  # skip_before_filter :verify_authenticity_token, :only => [:arrival, :discharge, :transfer, :registration, :cancel, :pre_admit, :visit_update]
 
   require 'bjond-api'
+  require 'validic'
   
+  client = Validic::Client.new
+
+  def get_diabetes
   def arrival
     config = BjondApi::BjondAppConfig.instance
     # Handles payload from validic, relays to Bjond Server Core in form of event.
