@@ -1,7 +1,7 @@
 {
   "name": "bjond-app",
   "authors": [
-    "Blake Rego blake.rego@bjondinc.com"
+    "George Bennum george.bennum@bjondinc.com"
   ],
   "description": "Bjönd app",
   "dependencies": {

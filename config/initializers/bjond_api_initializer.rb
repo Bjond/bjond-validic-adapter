@@ -18,11 +18,6 @@ config.group_configuration_schema = {
       :type => 'string',
       :description => 'Validic Source Secret',
       :title => 'Validic Source Secret'
-    },
-    :sample_person_id => {
-      :type => 'string',
-      :description => 'Bjönd Person ID. This can be any person ID in the tenant.',
-      :title => 'Bjönd Patient ID'
     }
   },
   :required => ['sample_field']
@@ -32,10 +27,9 @@ config.encryption_key_name = 'VALIDIC_ENCRYPTION_KEY'
 
 def config.configure_group(result, bjond_registration)
   validic_config = ValidicConfiguration.find_or_initialize_by(:bjond_registration_id => bjond_registration.id)
-  if (validic_config.api_key != result['api_key'] || validic_config.secret != result['secret'] || validic_config.sample_person_id != result['sample_person_id'])
+  if (validic_config.api_key != result['api_key'] || validic_config.secret != result['secret'])
     validic_config.api_key = result['api_key'] 
     validic_config.secret = result['secret']
-    validic_config.sample_person_id = result['sample_person_id']
     validic_config.save
   end
   return validic_config
@@ -45,7 +39,7 @@ def config.get_group_configuration(bjond_registration)
   validic_config = ValidicConfiguration.find_by_bjond_registration_id(bjond_registration.id)
   if (validic_config.nil?)
     puts 'No configuration has been saved yet.'
-    return {:secret => '', :sample_person_id => '', :api_key => ''}
+    return {:secret => '', :api_key => ''}
   else
     return validic_config
   end
@@ -53,117 +47,88 @@ end
 
 ### The integration app definition is sent to Bjond-Server core during registration.
 config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
-  app_def.id           = 'e221951b-f0c5-4afe-b609-0325d533483e'
+  app_def.id           = '58d1e6fd-19ea-4bd7-b31b-3852539588f0'
   app_def.author       = 'Bjönd, Inc.'
   app_def.name         = 'Bjönd Validic App'
   app_def.description  = 'Testing API functionality'
-  app_def.iconURL      = 'http://cdn.slidesharecdn.com/profile-photo-ValidicEngine-96x96.jpg?cb=1468963688'
+  app_def.iconURL      = 'https://validic.com/wp-content/themes/Divi-child/images/validic.svg'
   app_def.integrationEvent = [
     BjondApi::BjondEvent.new.tap do |e|
       e.id = '3288feb8-7c20-490e-98a1-a86c9c17da87'
-      e.jsonKey = 'admissionArrival'
-      e.name = 'Validic Patient Admin (HL7)'
-      e.description = 'An Arrival message is generated when a patient shows up for their visit or when a patient is admitted to the hospital.'
+      e.jsonKey = 'diabetesEvent'
+      e.name = 'Diabetes Event'
+      e.description = 'Validic collates data that Bjond consumes'
       e.serviceId = app_def.id
       e.fields = [
         BjondApi::BjondField.new.tap do |f|
-          f.id = '0764d789-f231-4e65-b0d5-302cd60aaef3'
-          f.jsonKey = 'bjondPersonId'
+          f.id = '975e5a5f-fd05-4843-90e9-9bc201a8e48b'
+          f.jsonKey = 'bjondPatientId'
           f.name = 'Patient'
           f.description = 'The patient identifier'
           f.fieldType = 'Person'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = 'b23379b0-fc7e-4f5d-964b-f41b574d285a'
-          f.jsonKey = 'eventType'
-          f.name = 'Event Type'
-          f.description = 'Either an admission or discharge event.'
-          f.fieldType = 'MultipleChoice'
-          f.options = [
-            'Arrival',
-            'Discharge',
-            'Transfer',
-            'Registration',
-            'Cancel',
-            'PreAdmit',
-            'VisitUpdate'
-          ]
-          f.event = e.id
-        end,
-        BjondApi::BjondField.new.tap do |f|
-          f.id = '5422679d-195f-45c9-9575-82d58fb6c4f2'
-          f.jsonKey = 'canceledEvent'
-          f.name = 'Canceled Event'
-          f.description = 'This is the event type to be canceled.'
-          f.fieldType = 'MultipleChoice'
-          f.options = [
-            'Arrival',
-            'Discharge',
-            'Transfer'
-          ]
-          f.event = e.id
-        end,
-        BjondApi::BjondField.new.tap do |f|
-          f.id = '3728580f-855a-435d-a7d5-1cb956745c14'
-          f.jsonKey = 'diagnosesCodes'
-          f.name = 'Diagnoses Codes'
-          f.description = 'This is the code relating to the diagnosis for the patient.'
-          f.fieldType = 'MedicalCodeArray'
-          f.codeType = 'ICD10'
-          f.event = e.id
-        end,
-        BjondApi::BjondField.new.tap do |f|
-          f.id = '81dac31a-ea79-49c0-9e2c-cf19841d6559'
-          f.jsonKey = 'servicingFacility'
-          f.name = 'Servicing Facility'
-          f.description = 'Name of the facility.'
+          f.id = '533487d9-baff-4286-a996-00fc034c7b5a'
+          f.jsonKey = 'cPeptide'
+          f.name = 'C Peptide'
+          f.description = 'C peptide levels in ng/mL'
           f.fieldType = 'String'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = '51ee97dd-d6ae-44c2-aa83-b761029b818c'
-          f.jsonKey = 'sex'
-          f.name = 'Sex'
-          f.description = 'Biological sex of the patient.'
-          f.fieldType = 'MultipleChoice'
-          f.options = [
-            'Male',
-            'Female',
-            'Other',
-            'Unknown'
-          ]
+          f.id = 'a11df748-e0d1-4861-8714-8c863692ee70'
+          f.jsonKey = 'fastingPlasmaGlucoseTest'
+          f.name = 'Fasting Plasma Glucose Test'
+          f.description = 'Fasting Plasma Glucose Test levels in mg/dL'
+          f.fieldType = 'String'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = 'ef9be5b0-0c52-4eca-92d4-1f034836858e'
-          f.jsonKey = 'admissionTime'
-          f.name = 'Admission Time'
-          f.description = 'The date and time of admission.'
-          f.fieldType = 'DateTime'
+          f.id = '42f4dd7d-ee5f-4577-b9d8-c206c94f9f5c'
+          f.jsonKey = 'hba1c'
+          f.name = 'hba1c'
+          f.description = 'hba1c Percentage'
+          f.fieldType = 'String'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = 'f03b8671-d410-4cee-a157-aeadff1753ac'
-          f.jsonKey = 'dischargeTime'
-          f.name = 'Discharge Time'
-          f.description = 'The date and time of discharge.'
-          f.fieldType = 'DateTime'
+          f.id = '063275d7-4def-4381-8207-8334c708567c'
+          f.jsonKey = 'insulin'
+          f.name = 'Insulin'
+          f.description = 'Insulin levels in U'
+          f.fieldType = 'String'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = '847e24fe-fecd-47a8-af00-10b677ca858d'
-          f.jsonKey = 'attendingProvider'
-          f.name = 'Attending Provider'
-          f.description = 'The attending provider person.'
-          f.fieldType = 'Person'
+          f.id = '521702c9-69db-4260-8d60-008aa7490692'
+          f.jsonKey = 'oralGlucoseToleranceTest'
+          f.name = 'Oral Glucose Tolerance Test'
+          f.description = 'Oral Glucose Tolerance Test levels in mg/dL'
+          f.fieldType = 'String'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = '534dbe2f-c0d1-451b-ab88-aa3cc47f416c'
-          f.jsonKey = 'dischargeDisposition'
-          f.name = 'Discharge Disposition / Reason'
-          f.description = 'Reason for visit.'
+          f.id = '2d349abe-859b-4db6-a59a-99339d00caa7'
+          f.jsonKey = 'randomPlasmaGlucoseTest'
+          f.name = 'Random Plasma Glucose Test'
+          f.description = 'Random Plasma Glucose Test levels in mg/dL'
+          f.fieldType = 'String'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'f19d62e0-a796-448a-a524-6f127a8482ce'
+          f.jsonKey = 'triglyceride'
+          f.name = 'Triglyceride'
+          f.description = 'Triglyceride levels in mg/dL'
+          f.fieldType = 'String'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'f19d62e0-a796-448a-a524-6f127a8482ce'
+          f.jsonKey = 'bloodGlucose'
+          f.name = 'Blood Glucose'
+          f.description = 'Blood Glucose levels in mg/dL'
           f.fieldType = 'String'
           f.event = e.id
         end

@@ -21,7 +21,6 @@ class BjondValidicUserConversionController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def validic_configuration_params
-      params.require(:validic_configuration).permit(:api_key, :secret, :sample_person_id)
-    end
+      params.require(:validic_configuration).permit(:api_key, :secret
 
 end

@@ -9,17 +9,6 @@
     <%= @validic_configuration.api_key %>
   </p>
 
-  <% if @validic_configuration.sample_person_id %>
-    <p>
-      <strong>Bjönd Person ID:</strong>
-      <%= @validic_configuration.sample_person_id %>
-    </p>
-  <% else %>
-    <p class="not-found">
-      Please log in to the Bjönd server and select a person ID for this tenant. Once you find this information, <%= link_to 'add it here', edit_validic_configuration_path(@validic_configuration) %>.
-    </p>
-  <% end %>
-
   <%= link_to 'Edit', edit_validic_configuration_path(@validic_configuration) %> | 
   <%= link_to 'Back to Registrations Page', bjond_registrations_path %>
 </div>

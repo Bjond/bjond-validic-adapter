@@ -40,7 +40,14 @@ ActiveRecord::Schema.define(version: 20160804202443) do
     t.string   "bjond_registration_id"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
-    t.string   "sample_person_id"
+  end
+
+  create_table "bjond_validic_user_conversion", force: :cascade do |t|
+    t.string   "validic_id"
+    t.string   "bjond_id"
+    t.string   "user_access_token"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
 end
