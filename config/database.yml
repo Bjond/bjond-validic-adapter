@@ -1,11 +1,11 @@
 development: &development
   adapter: postgresql
   host: localhost
-  database: bjond_redox_app_dev
+  database: bjond_validic_app_dev
   encoding: unicode
   
 test: &test
   adapter: postgresql
   host: localhost
-  database: bjond_redox_app_test
+  database: bjond_validic_app_test
   encoding: unicode 
