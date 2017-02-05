@@ -14,5 +14,5 @@ Rails.application.routes.draw do
   get  '/validic/patient_admin/push_service_endpoint' => 'patient_admin#verify_push_service_endpoint'
   post '/validic/patient_admin/push_service_endpoint' => 'patient_admin#push_service_endpoint'
 
-  resources :validic_configurations, :bjond_validic_user_conversion
+  resources :validic_configurations, :bjond_validic_user_conversions
 end

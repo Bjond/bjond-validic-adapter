@@ -9,7 +9,6 @@ class PatientAdminController < ApplicationController
 
   def create_user(bjondId)
     response = @@client.provision_user(uid: bjondId)
-    puts 
   end
 
   def verify_create_user
@@ -53,25 +52,20 @@ class PatientAdminController < ApplicationController
   def push_service_endpoint
     config = BjondApi::BjondAppConfig.instance
     # Handles payload from Redox, relays to Bjond Server Core in form of event.
-    puts request.raw_post
     parsed = JSON.parse(request.raw_post)
-    puts parsed
     data = parsed["data"]
     puts data
     if (!data.nil?)
       data.each do |activity|
-        user_id = activity["_id"]
+        bjond_id = BjondValidicUserConversion.find_by(validic_id: activity["_id"])
         activity_type = activity["activity_type"]
         options = {
           # Hard code to their test person for now
-          # authentication_token: '8tZLFN_8XNdfZT3FjU6',
-          # access_token: 'ENTERPRISE_KEY',
-          :user_id => '5670645b96014ca88c000059'
-          # :start_date => '2015-01-01T00:00:00+00:00'
-          # :user_id => user_id,
+          user_id: '5670645b96014ca88c000059',
+          start_date: '2015-01-01T00:00:00+00:00'
         }
         event_data = {
-          :bjondPatientId => user_id,
+          :bjondPatientId => bjond_id.bjond_id
         }
         case activity_type
           when "fitness"
@@ -88,20 +82,17 @@ class PatientAdminController < ApplicationController
             response = @@client.get_weight(options)
           when "diabetes"
             event_id = '3288feb8-7c20-490e-98a1-a86c9c17da87'
-            puts options
             response = @@client.get_diabetes(options)
-            puts response
             # For now, we're just getting the first result from the response
-            diabetes_data = response["diabetes"][0]
-            event_data[:bjondPatientId] = BjondValidicUserConversionController
-            event_data[:cPeptide] = diabetes_data["c_peptide"]
-            event_data[:fastingPlasmaGlucoseTest] = diabetes_data["fasting_plasma_glucose_test"]
-            event_data[:hba1c] = diabetes_data["hba1c"]
-            event_data[:insulin] = diabetes_data['insulin']
-            event_data[:oralGlucoseToleranceTest] = diabetes_data['oral_glucose_tolerance_test']
-            event_data[:randomPlasmaGlucoseTest] = diabetes_data['random_plasma_glucose_test']
-            event_data[:triglyceride] = diabetes_data['triglyceride']
-            event_data[:bloodGlucose] = diabetes_data['blood_glucose']
+            diabetes_data = response.records.first
+            event_data[:cPeptide] = diabetes_data.c_peptide
+            event_data[:fastingPlasmaGlucoseTest] = diabetes_data.fasting_plasma_glucose_test
+            event_data[:hba1c] = diabetes_data.hba1c
+            event_data[:insulin] = diabetes_data.insulin
+            event_data[:oralGlucoseToleranceTest] = diabetes_data.oral_glucose_tolerance_test
+            event_data[:randomPlasmaGlucoseTest] = diabetes_data.random_plasma_glucose_test
+            event_data[:triglyceride] = diabetes_data.triglyceride
+            event_data[:bloodGlucose] = diabetes_data.blood_glucose
           when "biometrics"
             event_id = nil
             response = @@client.get_biometrics(options)
