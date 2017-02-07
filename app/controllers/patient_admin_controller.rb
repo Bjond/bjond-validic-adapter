@@ -64,8 +64,9 @@ class PatientAdminController < ApplicationController
           user_id: '5670645b96014ca88c000059',
           start_date: '2015-01-01T00:00:00+00:00'
         }
+        vldc = RedoxConfiguration.find_by_bjond_registration_id(r.id)
         event_data = {
-          :bjondPatientId => bjond_id.bjond_id
+          :bjondPatientId => vldc.sample_person_id
         }
         case activity_type
           when "fitness"

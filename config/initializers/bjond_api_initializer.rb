@@ -18,6 +18,11 @@ config.group_configuration_schema = {
       :type => 'string',
       :description => 'Validic Source Secret',
       :title => 'Validic Source Secret'
+    },
+    :sample_person_id => {
+      :type => 'string',
+      :description => 'Bjönd Person ID. This can be any person ID in the tenant.',
+      :title => 'Bjönd Patient ID'
     }
   },
   :required => ['sample_field']
@@ -27,9 +32,12 @@ config.encryption_key_name = 'VALIDIC_ENCRYPTION_KEY'
 
 def config.configure_group(result, bjond_registration)
   validic_config = ValidicConfiguration.find_or_initialize_by(:bjond_registration_id => bjond_registration.id)
-  if (validic_config.api_key != result['api_key'] || validic_config.secret != result['secret'])
-    validic_config.api_key = result['api_key'] 
-    validic_config.secret = result['secret']
+  # We don't require a api key or secret currently
+  # if (validic_config.api_key != result['api_key'] || validic_config.secret != result['secret'] || redox_config.sample_person_id != result['sample_person_id'])
+  if (result['sample_person_id'] != nil)
+    # validic_config.api_key = result['api_key'] 
+    # validic_config.secret = result['secret']
+    validic_config.sample_person_id = result['sample_person_id']
     validic_config.save
   end
   return validic_config
@@ -39,7 +47,7 @@ def config.get_group_configuration(bjond_registration)
   validic_config = ValidicConfiguration.find_by_bjond_registration_id(bjond_registration.id)
   if (validic_config.nil?)
     puts 'No configuration has been saved yet.'
-    return {:secret => '', :api_key => ''}
+    return {:secret => '', :sample_person_id => '', :api_key => ''}
   else
     return validic_config
   end
@@ -117,7 +125,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = 'f19d62e0-a796-448a-a524-6f127a8482ce'
+          f.id = '38fb83e3-d23b-4299-9a7c-a7b9f50feefb'
           f.jsonKey = 'triglyceride'
           f.name = 'Triglyceride'
           f.description = 'Triglyceride levels in mg/dL'
@@ -125,7 +133,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
-          f.id = 'f19d62e0-a796-448a-a524-6f127a8482ce'
+          f.id = 'e720fe2f-cb54-4333-85f2-65f7cc7d1e2b'
           f.jsonKey = 'bloodGlucose'
           f.name = 'Blood Glucose'
           f.description = 'Blood Glucose levels in mg/dL'

@@ -28,7 +28,7 @@ class ValidicConfigurationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def validic_configuration_params
-      params.require(:validic_configuration).permit(:api_key, :secret)
+      params.require(:validic_configuration).permit(:api_key, :secret, :sample_person_id)
     end
 
 end
