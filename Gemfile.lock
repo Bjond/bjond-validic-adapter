@@ -48,7 +48,7 @@ GEM
     bindata (2.3.5)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bjond-api (0.3.12)
+    bjond-api (0.3.13)
       attr_encrypted (~> 3.0, >= 3.0.3)
       faraday (~> 0.9.2)
       rails (>= 4.2.4)

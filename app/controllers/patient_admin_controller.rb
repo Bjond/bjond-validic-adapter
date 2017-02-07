@@ -64,10 +64,7 @@ class PatientAdminController < ApplicationController
           user_id: '5670645b96014ca88c000059',
           start_date: '2015-01-01T00:00:00+00:00'
         }
-        vldc = RedoxConfiguration.find_by_bjond_registration_id(r.id)
-        event_data = {
-          :bjondPatientId => vldc.sample_person_id
-        }
+        event_data = {}
         case activity_type
           when "fitness"
             event_id = nil
@@ -113,12 +110,13 @@ class PatientAdminController < ApplicationController
         # Make web requests to Bjond on a separate thread
         BjondRegistration.all.each do |r|
           ap r
-          rdxc = ValidicConfiguration.find_by_bjond_registration_id(r.id)
+          vldc = ValidicConfiguration.find_by_bjond_registration_id(r.id)
+          event_data[:bjondPersonId] = vldc.sample_person_id
           puts event_data.to_json
           puts "firing now!"
           Thread.new do 
             begin
-              BjondApi::fire_event(r, event_data.to_json, event_id)
+              BjondApi::fire_event(r, event_data.to_json, config.active_definition.integrationEvent.first.id)
             rescue StandardError => bang
               puts "Encountered an error when firing event associated with BjondRegistration with id: "
               puts r.id
