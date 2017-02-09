@@ -81,7 +81,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'cPeptide'
           f.name = 'C Peptide'
           f.description = 'C peptide levels in ng/mL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -89,7 +89,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'fastingPlasmaGlucoseTest'
           f.name = 'Fasting Plasma Glucose Test'
           f.description = 'Fasting Plasma Glucose Test levels in mg/dL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -97,7 +97,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'hba1c'
           f.name = 'hba1c'
           f.description = 'hba1c Percentage'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -105,7 +105,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'insulin'
           f.name = 'Insulin'
           f.description = 'Insulin levels in U'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -113,7 +113,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'oralGlucoseToleranceTest'
           f.name = 'Oral Glucose Tolerance Test'
           f.description = 'Oral Glucose Tolerance Test levels in mg/dL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -121,7 +121,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'randomPlasmaGlucoseTest'
           f.name = 'Random Plasma Glucose Test'
           f.description = 'Random Plasma Glucose Test levels in mg/dL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -129,7 +129,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'triglyceride'
           f.name = 'Triglyceride'
           f.description = 'Triglyceride levels in mg/dL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end,
         BjondApi::BjondField.new.tap do |f|
@@ -137,7 +137,7 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.jsonKey = 'bloodGlucose'
           f.name = 'Blood Glucose'
           f.description = 'Blood Glucose levels in mg/dL'
-          f.fieldType = 'String'
+          f.fieldType = 'Number'
           f.event = e.id
         end
       ]
