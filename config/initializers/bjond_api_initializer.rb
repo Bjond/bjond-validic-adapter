@@ -482,6 +482,231 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
           f.event = e.id
         end
       ]
+    end,
+    BjondApi::BjondEvent.new.tap do |e|
+      e.id = '3e7b37a5-04a7-43da-8bae-67c6ab8fad70'
+      e.jsonKey = 'biometricsEvent'
+      e.name = 'Biometrics Event'
+      e.description = 'Validic collates data that Bjond consumes'
+      e.serviceId = app_def.id
+      e.fields = [
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'e9944fa0-7f38-4eb5-a178-6c427a09697b'
+          f.jsonKey = 'bjondPatientId'
+          f.name = 'Patient'
+          f.description = 'The patient identifier'
+          f.fieldType = 'Person'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '48529afb-475e-4433-b692-793422ae333f'
+          f.jsonKey = 'blood_calcium'
+          f.name = 'Blood Calcium'
+          f.description = 'Blood calcium in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'f4e0c860-7e2e-407c-a484-b191ed182aee'
+          f.jsonKey = 'blood_chromium'
+          f.name = 'Blood Chromium'
+          f.description = 'Blood chromium in µg/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '5101fff5-1e77-44c3-b1e5-538fb686e6d2'
+          f.jsonKey = 'bloodFolicAcid'
+          f.name = 'Blood Folic Acid'
+          f.description = 'Blood folic acid in ng/mL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '890dfb0f-8b8a-4e28-94b8-2e158876ef3b'
+          f.jsonKey = 'bloodMagnesium'
+          f.name = 'Blood Magnesium'
+          f.description = 'Blood magnesium in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '8a32ec8a-dabd-4a30-99b8-54c29f6dda3f'
+          f.jsonKey = 'bloodPotassium'
+          f.name = 'Blood Potassium'
+          f.description = 'Blood potassium in mEq/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '3415c69a-53a1-4011-9153-57c689f7b674'
+          f.jsonKey = 'bloodSodium'
+          f.name = 'Blood Sodium'
+          f.description = 'Blood sodium in mEq/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'b139a3bb-4477-4fab-89e2-77bd41366154'
+          f.jsonKey = 'bloodVitaminB12'
+          f.name = 'Blood Vitamin B12'
+          f.description = 'Blood vitamin B12 in pg/mL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '9f899228-0d21-40a6-ba23-b2e1aa988393'
+          f.jsonKey = 'bloodZinc'
+          f.name = 'Blood Zinc'
+          f.description = 'Blood zinc in µg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '4abe2a56-d516-4415-b21a-8ed38794c370'
+          f.jsonKey = 'creatineKinase'
+          f.name = 'Creatine Kinase'
+          f.description = 'Creatine kinase in U/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'bda3b5b1-ea00-474f-b5c8-8a9ee9cfa7da'
+          f.jsonKey = 'crp'
+          f.name = 'CRP'
+          f.description = 'CRP in mg/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'f7660e5b-5bb7-4648-9f84-02c3f52a1e89'
+          f.jsonKey = 'diastolic'
+          f.name = 'Diastolic Blood Pressure'
+          f.description = 'Diastolic in mmHg'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'a60bafb7-4f31-411a-aebc-6e82c342ba98'
+          f.jsonKey = 'ferritin'
+          f.name = 'Ferritin'
+          f.description = 'Ferritin in ng/mL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '756110e8-5dc1-4e2b-a4c3-7ed8634db950'
+          f.jsonKey = 'HDL'
+          f.name = 'HDL'
+          f.description = 'HDL in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '0dc83fc0-9c3c-4f10-bf00-fe1d23a01243'
+          f.jsonKey = 'hscrp'
+          f.name = 'HSCRP'
+          f.description = 'HSCRP in mg/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'efa02401-73d6-4cf9-8c7f-99313e8c621b'
+          f.jsonKey = 'il6'
+          f.name = 'IL6'
+          f.description = 'IL6 in pg/mL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '112d019d-3fd4-4b3f-ae6b-9e3796128033'
+          f.jsonKey = 'ldl'
+          f.name = 'LDL'
+          f.description = 'LDL in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '3acde1a0-6b34-4125-a317-3fd388149942'
+          f.jsonKey = 'restingHeartrate'
+          f.name = 'Resting Heartrate'
+          f.description = 'Resting heartrate in bpm'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '8fb620aa-debf-492b-b2f9-826c859ca488'
+          f.jsonKey = 'systolic'
+          f.name = 'Systolic Blood Pressure'
+          f.description = 'Systolic blood pressure in mmHg'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'c96088f4-8126-40f1-aa95-42f493da9933'
+          f.jsonKey = 'testosterone'
+          f.name = 'Testosterone'
+          f.description = 'Testosterone in ng/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'd03e9600-8451-4d77-aee8-ab1fb6168504'
+          f.jsonKey = 'totalCholesterol'
+          f.name = 'Total Cholesterol'
+          f.description = 'Total cholesterol in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '73d3e9dd-82f6-4c08-a967-8ac597a47e62'
+          f.jsonKey = 'TSH'
+          f.name = 'TSH'
+          f.description = 'TSH in mIU/L'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '90e978b5-c159-481e-ae8d-d47f8644dab1'
+          f.jsonKey = 'uricAcid'
+          f.name = 'Uric acid'
+          f.description = 'Uric acid in mg/dL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'c1082e55-439f-4cc4-aaf9-28c6f1872728'
+          f.jsonKey = 'vitaminD'
+          f.name = 'Vitamin D'
+          f.description = 'Vitamin D in ng/mL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '40349be1-0263-4f77-8e3e-4c9c070e7990'
+          f.jsonKey = 'whiteCellCount'
+          f.name = 'White Cell Count'
+          f.description = 'White cell count in cells/µL'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = 'f367fa95-107f-4899-befa-e2861962e879'
+          f.jsonKey = 'SPO2'
+          f.name = 'SPO2'
+          f.description = 'SPO2 (0 - 100%)'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end,
+        BjondApi::BjondField.new.tap do |f|
+          f.id = '6bd7fff9-64cf-4ace-be0b-0e241954fe0f'
+          f.jsonKey = 'temperature'
+          f.name = 'Temperature'
+          f.description = 'Temperature in Celsius'
+          f.fieldType = 'Number'
+          f.event = e.id
+        end
+      ]
     end
   ]
 end

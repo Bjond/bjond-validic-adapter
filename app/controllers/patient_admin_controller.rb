@@ -67,45 +67,74 @@ class PatientAdminController < ApplicationController
         event_data = {}
         case activity_type
           when "fitness"
-            event_id = nil
             response = @@client.get_fitness(options)
+            # For now, we're just getting the first result from the response
+            fitness_data = response.records.first.to_json
+            fitness_fields = ['intensity', 'distance', 'duration', 'calories', 'activity_category']
+            fitness_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "routine"
-            event_id = nil
             response = @@client.get_routine(options)
-          when "nutritions"
-            event_id = nil
+            # For now, we're just getting the first result from the response
+            routine_data = response.records.first.to_json
+            routine_fields = ['steps', 'distance', 'floors', 'elevation', 'calories_burned', 
+              'water']
+            routine_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
+          when "nutrition"
             response = @@client.get_nutritions(options)
+            # For now, we're just getting the first result from the response
+            nutrition_data = response.records.first.to_json
+            nutrition_fields = ['calories', 'carbohydrates', 'fat', 'fiber', 'protein', 'sodium', 
+              'water', 'meal']
+            nutrition_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "weight"
-            event_id = nil
             response = @@client.get_weight(options)
+            # For now, we're just getting the first result from the response
+            weight_data = response.records.first.to_json
+            weight_fields = ['weight', 'height', 'free_mass', 'fat_percent', 'mass_weight', 'bmi']
+            weight_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "diabetes"
-            event_id = '3288feb8-7c20-490e-98a1-a86c9c17da87'
             response = @@client.get_diabetes(options)
             # For now, we're just getting the first result from the response
-            diabetes_data = response.records.first
-            event_data[:cPeptide] = diabetes_data.c_peptide
-            event_data[:fastingPlasmaGlucoseTest] = diabetes_data.fasting_plasma_glucose_test
-            event_data[:hba1c] = diabetes_data.hba1c
-            event_data[:insulin] = diabetes_data.insulin
-            event_data[:oralGlucoseToleranceTest] = diabetes_data.oral_glucose_tolerance_test
-            event_data[:randomPlasmaGlucoseTest] = diabetes_data.random_plasma_glucose_test
-            event_data[:triglyceride] = diabetes_data.triglyceride
-            event_data[:bloodGlucose] = diabetes_data.blood_glucose
+            diabetes_data = response.records.first.to_json
+            diabetes_fields = ['c_peptide', 'fasting_plasma_glucose_test', 'hba1c', 'insulin', 
+              'oral_glucose_tolerance_test', 'random_plasma_glucose_test', 'triglyceride', 
+              'blood_glucose']
+            diabetes_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "biometrics"
-            event_id = nil
             response = @@client.get_biometrics(options)
+            # For now, we're just getting the first result from the response
+            biometrics_data = response.records.first.to_json
+            biometrics_fields = ['blood_calcium', 'blood_chromium', 'blood_folic_acid', 
+              'blood_magnesium', 'blood_potassium', 'blood_sodium', 'blood_vitamin_b12', 
+              'blood_zinc', 'creatine_kinase', 'crp', 'diastolic', 'ferritin', 'hdl', 'hscrp', 
+              'il6', 'ldl','resting_heartrate', 'systolic', 'testosterone', 'total_cholesterol', 
+              'tsh', 'uric_acid','vitamin_d', 'white_cell_count', 'spo2', 'temperature']
+            biometrics_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "sleep"
-            event_id = nil
             response = @@client.get_sleep(options)
+            # For now, we're just getting the first result from the response
+            sleep_data = response.records.first.to_json
+            sleep_fields = ['awake', 'deep', 'light', 'rem', 'times_woken', 'total_sleep']
+            sleep_fields.each do |snake_key|
+               event_data[snake_key.camelize(:lower)] = diabetes_data[snake_key]
+            end
           when "tobacco_cessations"
-            event_id = nil
             response = @@client.get_tobacco_cessations(options)
           else
             response = nil
-            event_id = nil
         end
-
-        puts event_data
 
         # Make web requests to Bjond on a separate thread
         BjondRegistration.all.each do |r|
@@ -116,7 +145,8 @@ class PatientAdminController < ApplicationController
           puts "firing now!"
           Thread.new do 
             begin
-              BjondApi::fire_event(r, event_data.to_json, config.active_definition.integrationEvent.first.id)
+              integration_event = config.active_definition.integrationEvent.find { |x| x.jsonKey == activity_type + 'Event'}
+              BjondApi::fire_event(r, event_data.to_json, integration_event.id)
             rescue StandardError => bang
               puts "Encountered an error when firing event associated with BjondRegistration with id: "
               puts r.id
