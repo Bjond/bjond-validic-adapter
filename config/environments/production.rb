@@ -15,8 +15,8 @@ Rails.application.configure do
   config.action_controller.perform_caching = true
 
   config.action_controller.default_url_options = {
-    :host => "stormy-coast-11743.herokuapp.com",
-    :root_url => "https://stormy-coast-11743.herokuapp.com"
+    :host => "lit-dawn-61182.herokuapp.com",
+    :root_url => "https://lit-dawn-61182.herokuapp.com"
   }
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
