@@ -50,6 +50,7 @@ class PatientAdminController < ApplicationController
   end
 
   def push_service_endpoint
+    puts 'getting config'
     config = BjondApi::BjondAppConfig.instance
     # Handles payload from Redox, relays to Bjond Server Core in form of event.
     parsed = JSON.parse(request.raw_post)
@@ -108,9 +109,11 @@ class PatientAdminController < ApplicationController
             event_data[:massWeight] = weight_data.mass_weight
             event_data[:bmi] = weight_data.bmi
           when "diabetes"
+            puts 'trying to get data from diabetes'
             response = @@client.get_diabetes(options)
             # For now, we're just getting the first result from the response
             diabetes_data = response.records.first
+            puts diabetes_data
             event_data[:cPeptide] = diabetes_data.c_peptide
             event_data[:fastingPlasmaGlucoseTest] = diabetes_data.fasting_plasma_glucose_test
             event_data[:hba1c] = diabetes_data.hba1c
@@ -165,10 +168,13 @@ class PatientAdminController < ApplicationController
             response = nil
         end
 
+        puts "trying to get registration"
         # Make web requests to Bjond on a separate thread
         BjondRegistration.all.each do |r|
+          puts "in registration"
           ap r
           vldc = ValidicConfiguration.find_by_bjond_registration_id(r.id)
+          puts vldc
           event_data[:bjondPatientId] = vldc.sample_person_id
           puts event_data.to_json
           puts "firing now!"
