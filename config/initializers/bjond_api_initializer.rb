@@ -420,8 +420,8 @@ config.active_definition = BjondApi::BjondAppDefinition.new.tap do |app_def|
     end,
     BjondApi::BjondEvent.new.tap do |e|
       e.id = '32a2434a-26ff-4c70-9079-f94189decfab'
-      e.jsonKey = 'sleepEvent'
-      e.name = 'Sleep Event'
+      e.jsonKey = 'weightEvent'
+      e.name = 'Weight Event'
       e.description = 'Validic collates data that Bjond consumes'
       e.serviceId = app_def.id
       e.fields = [
